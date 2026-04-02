@@ -1,0 +1,432 @@
+/**
+ * Express Server for Sipsy Cart Recovery + Preference System
+ * Deploy to Railway
+ */
+
+const express = require('express');
+const cors = require('cors');
+require('dotenv').config();
+
+const app = express();
+
+// Middleware
+app.use(cors());
+app.use(express.json());
+
+// Code batches
+const EMAIL2_CODES = [
+  'SIPSY5-BB12AD', 'SIPSY5-007DA4', 'SIPSY5-96E7A9', 'SIPSY5-9B81CF', 
+  'SIPSY5-FE4D8A', 'SIPSY5-A2D8F4', 'SIPSY5-C5E1B2', 'SIPSY5-D7F9E3',
+  'SIPSY5-E8A1F2', 'SIPSY5-F3B4C1', 'SIPSY5-G2C5D3', 'SIPSY5-H4D6E2',
+  'SIPSY5-I5E7F1', 'SIPSY5-J6F8A0', 'SIPSY5-K7G9B1', 'SIPSY5-L8H0C2',
+  'SIPSY5-M9I1D3', 'SIPSY5-N0J2E4', 'SIPSY5-O1K3F5', 'SIPSY5-P2L4G6',
+  'SIPSY5-Q3M5H7', 'SIPSY5-R4N6I8', 'SIPSY5-S5O7J9', 'SIPSY5-T6P8K0',
+  'SIPSY5-U7Q9L1', 'SIPSY5-V8R0M2', 'SIPSY5-W9S1N3', 'SIPSY5-X0T2O4',
+  'SIPSY5-Y1U3P5', 'SIPSY5-Z2V4Q6', 'SIPSY5-A3W5R7', 'SIPSY5-B4X6S8',
+  'SIPSY5-C5Y7T9', 'SIPSY5-D6Z8U0', 'SIPSY5-E7A1V1', 'SIPSY5-F8B2W2',
+  'SIPSY5-G9C3X3', 'SIPSY5-H0D4Y4', 'SIPSY5-I1E5Z5', 'SIPSY5-J2F6A6',
+  'SIPSY5-K3G7B7', 'SIPSY5-L4H8C8', 'SIPSY5-M5I9D9', 'SIPSY5-N6J0E0',
+  'SIPSY5-O7K1F1', 'SIPSY5-P8L2G2', 'SIPSY5-Q9M3H3', 'SIPSY5-R0N4I4',
+  // New batch (March 26)
+  'SIPSY5-B8J1WO', 'SIPSY5-RF3MXG', 'SIPSY5-1TX29W', 'SIPSY5-94PGN8', 'SIPSY5-YUWT6C', 'SIPSY5-W49ZKS', 'SIPSY5-B9W5ZW', 'SIPSY5-4X3HVT',
+  'SIPSY5-RUJT8P', 'SIPSY5-RLO8KX', 'SIPSY5-63LCUQ', 'SIPSY5-Z7NNF9', 'SIPSY5-BLIQHR', 'SIPSY5-TXWWRG', 'SIPSY5-6YIZC5', 'SIPSY5-J8E8KY',
+  'SIPSY5-HLMV68', 'SIPSY5-2O8HB3', 'SIPSY5-YXQIW4', 'SIPSY5-LP1JKB', 'SIPSY5-5ATRIF', 'SIPSY5-Z0LLDL', 'SIPSY5-SGH2GT', 'SIPSY5-AUE59T',
+  'SIPSY5-5C72GG', 'SIPSY5-905TBX', 'SIPSY5-00PWLY', 'SIPSY5-H8EGOU', 'SIPSY5-JIO8W4', 'SIPSY5-52KQFK', 'SIPSY5-OHB7BE', 'SIPSY5-AMTRD1',
+  'SIPSY5-IRE4X8', 'SIPSY5-V3MNUF', 'SIPSY5-94678O', 'SIPSY5-KU4H73', 'SIPSY5-9J1UCN', 'SIPSY5-F4QW6I', 'SIPSY5-M5MU72', 'SIPSY5-HQT4T9',
+  'SIPSY5-R8Q7ZY', 'SIPSY5-WJOGBG', 'SIPSY5-A0NU0C', 'SIPSY5-JAZCDA', 'SIPSY5-MO25AL', 'SIPSY5-9X2U2R', 'SIPSY5-6I0NYR', 'SIPSY5-RJMZKV',
+  'SIPSY5-YLIA9E', 'SIPSY5-WE9I46', 'SIPSY5-EJBUST', 'SIPSY5-1AMCKL', 'SIPSY5-Q490OJ', 'SIPSY5-K5GVS5', 'SIPSY5-URJXR9', 'SIPSY5-0N67G6',
+  'SIPSY5-KSD8I8', 'SIPSY5-I4UBWY', 'SIPSY5-B38FAW', 'SIPSY5-JDUKWM', 'SIPSY5-1O0764', 'SIPSY5-N77DBQ', 'SIPSY5-6CU55I', 'SIPSY5-WE4OYU',
+  'SIPSY5-TA8FDU', 'SIPSY5-T6VCL1', 'SIPSY5-ESO85X', 'SIPSY5-3933EZ', 'SIPSY5-ES991K', 'SIPSY5-3JTX6V', 'SIPSY5-GKLZ9N', 'SIPSY5-X22SMF',
+  'SIPSY5-1S6EBG', 'SIPSY5-1IWGYC', 'SIPSY5-S9IPEI', 'SIPSY5-KBPWJI', 'SIPSY5-P7YIP9', 'SIPSY5-XP0X54', 'SIPSY5-YJ6Z3W', 'SIPSY5-N4NXDO',
+  'SIPSY5-FRDW8F', 'SIPSY5-YIQVY1', 'SIPSY5-GMXFY6', 'SIPSY5-3EHPMC', 'SIPSY5-26YX8G', 'SIPSY5-9OWQ8X', 'SIPSY5-YTVLIB', 'SIPSY5-YJZDUR',
+  'SIPSY5-4TYDY3', 'SIPSY5-IVT86X', 'SIPSY5-GRX66P', 'SIPSY5-L19F5O', 'SIPSY5-SQO2YF', 'SIPSY5-KER1SN', 'SIPSY5-WH6TVI', 'SIPSY5-T0RC1T',
+  'SIPSY5-MDS1J3', 'SIPSY5-Q4UXJ3', 'SIPSY5-I7VMWU', 'SIPSY5-CH060A'
+];
+
+const EMAIL3_CODES = [
+  'SIPSY5-S1O5J5', 'SIPSY5-T2P6K6', 'SIPSY5-U3Q7L7', 'SIPSY5-V4R8M8',
+  'SIPSY5-W5S9N9', 'SIPSY5-X6T0O0', 'SIPSY5-Y7U1P1', 'SIPSY5-Z8V2Q2',
+  'SIPSY5-A9W3R3', 'SIPSY5-B0X4S4', 'SIPSY5-C1Y5T5', 'SIPSY5-D2Z6U6',
+  // New batch (March 26)
+  'SIPSY5-RW1SUN', 'SIPSY5-OL9JOO', 'SIPSY5-ALJNH5', 'SIPSY5-PC2VB8', 'SIPSY5-OK1IHM', 'SIPSY5-042AGB', 'SIPSY5-WBKDEI', 'SIPSY5-XN8EQG',
+  'SIPSY5-FWK2YE', 'SIPSY5-4QDMP9', 'SIPSY5-IUQ19G', 'SIPSY5-OCTFTF', 'SIPSY5-9Z3NVS', 'SIPSY5-20DU4S', 'SIPSY5-KN7AQT', 'SIPSY5-40CQCS',
+  'SIPSY5-NJCRGM', 'SIPSY5-BGIE4B', 'SIPSY5-9J28XO', 'SIPSY5-T261X6', 'SIPSY5-2OYSRC', 'SIPSY5-UBLZAD', 'SIPSY5-DO68RQ', 'SIPSY5-4L9JN4',
+  'SIPSY5-DUQI7B', 'SIPSY5-V5SG69', 'SIPSY5-6X4XA7', 'SIPSY5-M2O8N7', 'SIPSY5-RLV536', 'SIPSY5-QTOSPP', 'SIPSY5-P377QH', 'SIPSY5-KR9E0M',
+  'SIPSY5-G7W85T', 'SIPSY5-XN2B3Y', 'SIPSY5-SY3IX2', 'SIPSY5-WY2RJW', 'SIPSY5-J97YKP', 'SIPSY5-00BH2B', 'SIPSY5-2RAQ2F', 'SIPSY5-8ZXNEC',
+  'SIPSY5-NV2FF3', 'SIPSY5-BEZKZ7', 'SIPSY5-NY56DG', 'SIPSY5-006P9X', 'SIPSY5-LCWMZM', 'SIPSY5-CM1XWB', 'SIPSY5-XIHN5J', 'SIPSY5-9F0DCV',
+  'SIPSY5-YVKD6W', 'SIPSY5-899K1Y', 'SIPSY5-J2CF62', 'SIPSY5-VUC9DO', 'SIPSY5-PLUA9P', 'SIPSY5-E9QCMN', 'SIPSY5-OPADUB', 'SIPSY5-2LBQJW',
+  'SIPSY5-X3IJ0V', 'SIPSY5-O8K7HD', 'SIPSY5-1X7Y4D', 'SIPSY5-RIQSN7', 'SIPSY5-9V36H5', 'SIPSY5-FKSCOB', 'SIPSY5-8Z1Y0W', 'SIPSY5-ZT8L9K',
+  'SIPSY5-YHUXDO', 'SIPSY5-1B43GY', 'SIPSY5-U29H9U', 'SIPSY5-BSGI6T', 'SIPSY5-WCBU2W', 'SIPSY5-1I6L6M', 'SIPSY5-SX39Q0', 'SIPSY5-ZBX6Z0',
+  'SIPSY5-LSGKV4', 'SIPSY5-1AQ3FQ', 'SIPSY5-E61LKE', 'SIPSY5-8EI933', 'SIPSY5-5AQ86A', 'SIPSY5-0X6B2C', 'SIPSY5-409NIS', 'SIPSY5-BD3WRQ',
+  'SIPSY5-M8SGVS', 'SIPSY5-T4V0F2', 'SIPSY5-YI1JQK', 'SIPSY5-BSRPLZ', 'SIPSY5-PMBIM0', 'SIPSY5-DCD2XN', 'SIPSY5-OXGBB0', 'SIPSY5-2OCUTG',
+  'SIPSY5-C8T05J', 'SIPSY5-D3SFZL', 'SIPSY5-74KYHU', 'SIPSY5-Z5DCCJ', 'SIPSY5-PPHJV0', 'SIPSY5-2NJW6T', 'SIPSY5-IR1F5A', 'SIPSY5-8AFR39',
+  'SIPSY5-CIBTHZ', 'SIPSY5-HXNVBP', 'SIPSY5-U8MXWP', 'SIPSY5-MB5QKD'
+];
+
+// Email signup welcome codes (300 unique codes, 7-day expiration)
+const SIGNUP_CODES = [
+  'WELCOME5-001', 'WELCOME5-002', 'WELCOME5-003', 'WELCOME5-004', 'WELCOME5-005',
+  'WELCOME5-006', 'WELCOME5-007', 'WELCOME5-008', 'WELCOME5-009', 'WELCOME5-010',
+  'WELCOME5-011', 'WELCOME5-012', 'WELCOME5-013', 'WELCOME5-014', 'WELCOME5-015',
+  'WELCOME5-016', 'WELCOME5-017', 'WELCOME5-018', 'WELCOME5-019', 'WELCOME5-020',
+  'WELCOME5-021', 'WELCOME5-022', 'WELCOME5-023', 'WELCOME5-024', 'WELCOME5-025',
+  'WELCOME5-026', 'WELCOME5-027', 'WELCOME5-028', 'WELCOME5-029', 'WELCOME5-030',
+  'WELCOME5-031', 'WELCOME5-032', 'WELCOME5-033', 'WELCOME5-034', 'WELCOME5-035',
+  'WELCOME5-036', 'WELCOME5-037', 'WELCOME5-038', 'WELCOME5-039', 'WELCOME5-040',
+  'WELCOME5-041', 'WELCOME5-042', 'WELCOME5-043', 'WELCOME5-044', 'WELCOME5-045',
+  'WELCOME5-046', 'WELCOME5-047', 'WELCOME5-048', 'WELCOME5-049', 'WELCOME5-050',
+  'WELCOME5-051', 'WELCOME5-052', 'WELCOME5-053', 'WELCOME5-054', 'WELCOME5-055',
+  'WELCOME5-056', 'WELCOME5-057', 'WELCOME5-058', 'WELCOME5-059', 'WELCOME5-060',
+  'WELCOME5-061', 'WELCOME5-062', 'WELCOME5-063', 'WELCOME5-064', 'WELCOME5-065',
+  'WELCOME5-066', 'WELCOME5-067', 'WELCOME5-068', 'WELCOME5-069', 'WELCOME5-070',
+  'WELCOME5-071', 'WELCOME5-072', 'WELCOME5-073', 'WELCOME5-074', 'WELCOME5-075',
+  'WELCOME5-076', 'WELCOME5-077', 'WELCOME5-078', 'WELCOME5-079', 'WELCOME5-080',
+  'WELCOME5-081', 'WELCOME5-082', 'WELCOME5-083', 'WELCOME5-084', 'WELCOME5-085',
+  'WELCOME5-086', 'WELCOME5-087', 'WELCOME5-088', 'WELCOME5-089', 'WELCOME5-090',
+  'WELCOME5-091', 'WELCOME5-092', 'WELCOME5-093', 'WELCOME5-094', 'WELCOME5-095',
+  'WELCOME5-096', 'WELCOME5-097', 'WELCOME5-098', 'WELCOME5-099', 'WELCOME5-100',
+  'WELCOME5-101', 'WELCOME5-102', 'WELCOME5-103', 'WELCOME5-104', 'WELCOME5-105',
+  'WELCOME5-106', 'WELCOME5-107', 'WELCOME5-108', 'WELCOME5-109', 'WELCOME5-110',
+  'WELCOME5-111', 'WELCOME5-112', 'WELCOME5-113', 'WELCOME5-114', 'WELCOME5-115',
+  'WELCOME5-116', 'WELCOME5-117', 'WELCOME5-118', 'WELCOME5-119', 'WELCOME5-120',
+  'WELCOME5-121', 'WELCOME5-122', 'WELCOME5-123', 'WELCOME5-124', 'WELCOME5-125',
+  'WELCOME5-126', 'WELCOME5-127', 'WELCOME5-128', 'WELCOME5-129', 'WELCOME5-130',
+  'WELCOME5-131', 'WELCOME5-132', 'WELCOME5-133', 'WELCOME5-134', 'WELCOME5-135',
+  'WELCOME5-136', 'WELCOME5-137', 'WELCOME5-138', 'WELCOME5-139', 'WELCOME5-140',
+  'WELCOME5-141', 'WELCOME5-142', 'WELCOME5-143', 'WELCOME5-144', 'WELCOME5-145',
+  'WELCOME5-146', 'WELCOME5-147', 'WELCOME5-148', 'WELCOME5-149', 'WELCOME5-150',
+  'WELCOME5-151', 'WELCOME5-152', 'WELCOME5-153', 'WELCOME5-154', 'WELCOME5-155',
+  'WELCOME5-156', 'WELCOME5-157', 'WELCOME5-158', 'WELCOME5-159', 'WELCOME5-160',
+  'WELCOME5-161', 'WELCOME5-162', 'WELCOME5-163', 'WELCOME5-164', 'WELCOME5-165',
+  'WELCOME5-166', 'WELCOME5-167', 'WELCOME5-168', 'WELCOME5-169', 'WELCOME5-170',
+  'WELCOME5-171', 'WELCOME5-172', 'WELCOME5-173', 'WELCOME5-174', 'WELCOME5-175',
+  'WELCOME5-176', 'WELCOME5-177', 'WELCOME5-178', 'WELCOME5-179', 'WELCOME5-180',
+  'WELCOME5-181', 'WELCOME5-182', 'WELCOME5-183', 'WELCOME5-184', 'WELCOME5-185',
+  'WELCOME5-186', 'WELCOME5-187', 'WELCOME5-188', 'WELCOME5-189', 'WELCOME5-190',
+  'WELCOME5-191', 'WELCOME5-192', 'WELCOME5-193', 'WELCOME5-194', 'WELCOME5-195',
+  'WELCOME5-196', 'WELCOME5-197', 'WELCOME5-198', 'WELCOME5-199', 'WELCOME5-200',
+  'WELCOME5-201', 'WELCOME5-202', 'WELCOME5-203', 'WELCOME5-204', 'WELCOME5-205',
+  'WELCOME5-206', 'WELCOME5-207', 'WELCOME5-208', 'WELCOME5-209', 'WELCOME5-210',
+  'WELCOME5-211', 'WELCOME5-212', 'WELCOME5-213', 'WELCOME5-214', 'WELCOME5-215',
+  'WELCOME5-216', 'WELCOME5-217', 'WELCOME5-218', 'WELCOME5-219', 'WELCOME5-220',
+  'WELCOME5-221', 'WELCOME5-222', 'WELCOME5-223', 'WELCOME5-224', 'WELCOME5-225',
+  'WELCOME5-226', 'WELCOME5-227', 'WELCOME5-228', 'WELCOME5-229', 'WELCOME5-230',
+  'WELCOME5-231', 'WELCOME5-232', 'WELCOME5-233', 'WELCOME5-234', 'WELCOME5-235',
+  'WELCOME5-236', 'WELCOME5-237', 'WELCOME5-238', 'WELCOME5-239', 'WELCOME5-240',
+  'WELCOME5-241', 'WELCOME5-242', 'WELCOME5-243', 'WELCOME5-244', 'WELCOME5-245',
+  'WELCOME5-246', 'WELCOME5-247', 'WELCOME5-248', 'WELCOME5-249', 'WELCOME5-250',
+  'WELCOME5-251', 'WELCOME5-252', 'WELCOME5-253', 'WELCOME5-254', 'WELCOME5-255',
+  'WELCOME5-256', 'WELCOME5-257', 'WELCOME5-258', 'WELCOME5-259', 'WELCOME5-260',
+  'WELCOME5-261', 'WELCOME5-262', 'WELCOME5-263', 'WELCOME5-264', 'WELCOME5-265',
+  'WELCOME5-266', 'WELCOME5-267', 'WELCOME5-268', 'WELCOME5-269', 'WELCOME5-270',
+  'WELCOME5-271', 'WELCOME5-272', 'WELCOME5-273', 'WELCOME5-274', 'WELCOME5-275',
+  'WELCOME5-276', 'WELCOME5-277', 'WELCOME5-278', 'WELCOME5-279', 'WELCOME5-280',
+  'WELCOME5-281', 'WELCOME5-282', 'WELCOME5-283', 'WELCOME5-284', 'WELCOME5-285',
+  'WELCOME5-286', 'WELCOME5-287', 'WELCOME5-288', 'WELCOME5-289', 'WELCOME5-290',
+  'WELCOME5-291', 'WELCOME5-292', 'WELCOME5-293', 'WELCOME5-294', 'WELCOME5-295',
+  'WELCOME5-296', 'WELCOME5-297', 'WELCOME5-298', 'WELCOME5-299', 'WELCOME5-300'
+];
+
+// In-memory store
+let codeAssignments = {};
+let codeUsage = {};
+
+/**
+ * GET /api/assign-code?email=customer@example.com&type=email2
+ */
+app.get('/api/assign-code', async (req, res) => {
+  try {
+    let { email, type = 'email2' } = req.query;
+
+    if (!email) {
+      return res.status(400).json({ error: 'Email parameter required' });
+    }
+
+    // Normalize type: map checkout_email2/3 to email2/3
+    if (type === 'checkout_email2') {
+      type = 'email2';
+    } else if (type === 'checkout_email3') {
+      type = 'email3';
+    }
+
+    if (type !== 'email2' && type !== 'email3' && type !== 'signup') {
+      return res.status(400).json({ error: 'Type must be email2, email3, checkout_email2, checkout_email3, or signup' });
+    }
+
+    const key = `${email}_${type}`;
+    if (codeAssignments[key]) {
+      const assignment = codeAssignments[key];
+      const expiresAt = new Date(assignment.expiresAt);
+      
+      if (expiresAt > new Date()) {
+        return res.status(200).json({
+          code: assignment.code,
+          expiresAt: assignment.expiresAt,
+          message: 'Previously assigned code (still valid)',
+          isNew: false
+        });
+      } else {
+        delete codeAssignments[key];
+      }
+    }
+
+    let batch;
+    if (type === 'email2') {
+      batch = EMAIL2_CODES;
+    } else if (type === 'email3') {
+      batch = EMAIL3_CODES;
+    } else {
+      batch = SIGNUP_CODES;
+    }
+    
+    let availableCode = null;
+    for (const code of batch) {
+      if (!codeUsage[code]) {
+        availableCode = code;
+        break;
+      }
+    }
+
+    if (!availableCode) {
+      return res.status(400).json({
+        error: `No available codes in ${type} batch`,
+        codesRemaining: batch.length,
+        codesUsed: Object.keys(codeUsage).filter(c => batch.includes(c)).length
+      });
+    }
+
+    const now = new Date();
+    // Signup codes expire in 7 days, cart/checkout expire in 48 hours
+    const expirationMs = type === 'signup' 
+      ? 7 * 24 * 60 * 60 * 1000  // 7 days
+      : 48 * 60 * 60 * 1000;     // 48 hours
+    const expiresAt = new Date(now.getTime() + expirationMs);
+
+    codeAssignments[key] = {
+      code: availableCode,
+      email: email,
+      type: type,
+      assignedAt: now.toISOString(),
+      expiresAt: expiresAt.toISOString()
+    };
+
+    codeUsage[availableCode] = {
+      assignedAt: now.toISOString(),
+      email: email,
+      type: type,
+      used: false
+    };
+
+    return res.status(200).json({
+      code: availableCode,
+      expiresAt: expiresAt.toISOString(),
+      message: 'Code assigned successfully',
+      isNew: true
+    });
+
+  } catch (error) {
+    console.error('Error:', error);
+    return res.status(500).json({ error: error.message });
+  }
+});
+
+/**
+ * POST /api/mark-used?code=SIPSY5-XXXXX
+ */
+app.post('/api/mark-used', async (req, res) => {
+  try {
+    const { code } = req.query;
+
+    if (!code) {
+      return res.status(400).json({ error: 'Code parameter required' });
+    }
+
+    if (!codeUsage[code]) {
+      return res.status(404).json({ error: 'Code not found' });
+    }
+
+    codeUsage[code].used = true;
+    codeUsage[code].usedAt = new Date().toISOString();
+
+    return res.status(200).json({
+      message: 'Code marked as used',
+      code: code
+    });
+
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
+});
+
+/**
+ * GET /api/stats
+ */
+app.get('/api/stats', async (req, res) => {
+  const totalEmail2 = EMAIL2_CODES.length;
+  const totalEmail3 = EMAIL3_CODES.length;
+  const email2Used = Object.values(codeUsage).filter(c => c.type === 'email2' && c.used).length;
+  const email3Used = Object.values(codeUsage).filter(c => c.type === 'email3' && c.used).length;
+
+  return res.status(200).json({
+    email2: {
+      total: totalEmail2,
+      assigned: Object.values(codeAssignments).filter(c => c.type === 'email2').length,
+      used: email2Used,
+      available: totalEmail2 - email2Used
+    },
+    email3: {
+      total: totalEmail3,
+      assigned: Object.values(codeAssignments).filter(c => c.type === 'email3').length,
+      used: email3Used,
+      available: totalEmail3 - email3Used
+    },
+    totalAssignments: Object.keys(codeAssignments).length
+  });
+});
+
+/**
+ * GET /health
+ * Health check endpoint for Shopify app verification
+ */
+app.get('/health', (req, res) => {
+  res.status(200).json({ status: 'ok', message: 'Sipsy Recovery API is running' });
+});
+
+/**
+ * POST /api/update-preferences
+ * Update customer preferences and apply Shopify tags
+ */
+app.post('/api/update-preferences', async (req, res) => {
+  try {
+    const { email, interests } = req.body;
+
+    if (!email || !Array.isArray(interests)) {
+      return res.status(400).json({ 
+        error: 'Email and interests array required',
+        example: { email: 'user@example.com', interests: ['tequila', 'sales'] }
+      });
+    }
+
+    // Shopify API credentials (from environment variables)
+    const SHOPIFY_STORE = process.env.SHOPIFY_STORE;
+    const SHOPIFY_TOKEN = process.env.SHOPIFY_TOKEN;
+
+    if (!SHOPIFY_STORE || !SHOPIFY_TOKEN) {
+      return res.status(500).json({ 
+        error: 'Shopify credentials not configured in environment variables',
+        required: ['SHOPIFY_STORE', 'SHOPIFY_TOKEN']
+      });
+    }
+
+    // Step 1: Find customer by email
+    const searchUrl = `https://${SHOPIFY_STORE}.myshopify.com/admin/api/2024-01/customers/search.json?query=email:${encodeURIComponent(email)}`;
+
+    const searchResponse = await fetch(searchUrl, {
+      method: 'GET',
+      headers: {
+        'X-Shopify-Access-Token': SHOPIFY_TOKEN,
+        'Content-Type': 'application/json'
+      }
+    });
+
+    if (!searchResponse.ok) {
+      throw new Error(`Shopify search failed: ${searchResponse.statusText}`);
+    }
+
+    const searchData = await searchResponse.json();
+    
+    if (!searchData.customers || searchData.customers.length === 0) {
+      return res.status(404).json({ 
+        error: 'Customer not found',
+        email: email
+      });
+    }
+
+    const customer = searchData.customers[0];
+    const customerId = customer.id;
+
+    // Step 2: Map interests to Shopify tags
+    const interestTagMap = {
+      'new-products': 'Pref-New-Products',
+      'sales': 'Pref-Sales',
+      'tequila': 'Pref-Tequila',
+      'whiskey': 'Pref-Whiskey',
+      'wine': 'Pref-Wine',
+      'champagne': 'Pref-Champagne',
+      'sustainable': 'Pref-Sustainable',
+      'additive-free': 'Pref-Additive-Free',
+      'non-alcoholic': 'Pref-Non-Alcoholic',
+      'cocktail-recipes': 'Pref-Cocktail-Recipes'
+    };
+
+    const newTags = interests.map(interest => interestTagMap[interest]).filter(Boolean);
+    newTags.push('Preference-Collected');
+
+    // Step 3: Update customer tags
+    const updateUrl = `https://${SHOPIFY_STORE}.myshopify.com/admin/api/2024-01/customers/${customerId}.json`;
+
+    const updateResponse = await fetch(updateUrl, {
+      method: 'PUT',
+      headers: {
+        'X-Shopify-Access-Token': SHOPIFY_TOKEN,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        customer: {
+          id: customerId,
+          tags: newTags.join(', ')
+        }
+      })
+    });
+
+    if (!updateResponse.ok) {
+      throw new Error(`Shopify update failed: ${updateResponse.statusText}`);
+    }
+
+    const updateData = await updateResponse.json();
+
+    // Email is now sent via Shopify Workflow (triggered by Preference-Collected tag)
+    // No longer sending email from API
+
+    return res.status(200).json({
+      success: true,
+      message: 'Preferences saved and customer tagged. Shopify workflow will send thank you email.',
+      customer: {
+        id: customerId,
+        email: email,
+        name: customer.first_name,
+        tags: updateData.customer.tags
+      },
+      interests: interests,
+      discountCode: 'THANKYOU5',
+      emailVia: 'Shopify Workflow (triggered by Preference-Collected tag)',
+      timestamp: new Date().toISOString()
+    });
+
+  } catch (error) {
+    console.error('Error updating preferences:', error);
+    return res.status(500).json({ 
+      error: error.message,
+      timestamp: new Date().toISOString()
+    });
+  }
+});
+
+// Health check
+app.get('/health', (req, res) => {
+  res.status(200).json({ status: 'healthy', timestamp: new Date().toISOString() });
+});
+
+// Start server
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`✅ Sipsy Recovery API running on port ${PORT}`);
+  console.log(`Endpoints:`);
+  console.log(`  GET  /api/assign-code?email=...&type=email2`);
+  console.log(`  POST /api/mark-used?code=...`);
+  console.log(`  GET  /api/stats`);
+  console.log(`  POST /api/update-preferences`);
+  console.log(`  GET  /health`);
+});
+
+module.exports = app;

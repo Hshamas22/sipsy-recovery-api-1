@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rare Whiskey - Reserved for You</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background-color: #f5f5f5;
+            line-height: 1.6;
+            color: #333;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #ffffff;
+        }
+        .header {
+            background: linear-gradient(135deg, #1a1a1a 0%, #3d2817 100%);
+            padding: 40px 20px;
+            text-align: center;
+            color: #d4af37;
+        }
+        .header h1 {
+            font-size: 32px;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+        .tagline {
+            font-size: 16px;
+            opacity: 0.9;
+            color: #bbb;
+        }
+        .hero-section {
+            background: linear-gradient(135deg, #1a1a1a 0%, #3d2817 100%);
+            padding: 40px 20px;
+            text-align: center;
+            border-bottom: 3px solid #d4af37;
+        }
+        .hero-text {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #d4af37;
+        }
+        .hero-subtext {
+            font-size: 14px;
+            opacity: 0.9;
+            color: #bbb;
+        }
+        .content {
+            padding: 30px 20px;
+        }
+        .greeting {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: #1a1a1a;
+        }
+        .intro-text {
+            font-size: 14px;
+            line-height: 1.8;
+            margin-bottom: 20px;
+            color: #555;
+        }
+        .product-feature {
+            background: linear-gradient(135deg, #f4e4c1 0%, #e8d4b0 100%);
+            border-left: 4px solid #d4af37;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 6px;
+        }
+        .product-feature h3 {
+            color: #1a1a1a;
+            margin-bottom: 10px;
+            font-size: 16px;
+            font-weight: 700;
+        }
+        .tasting-notes {
+            font-size: 13px;
+            color: #333;
+            font-style: italic;
+            margin: 10px 0;
+            line-height: 1.6;
+        }
+        .feature-list {
+            font-size: 13px;
+            color: #333;
+            margin: 10px 0;
+        }
+        .feature-list li {
+            margin: 5px 0 5px 20px;
+            list-style: none;
+            position: relative;
+        }
+        .feature-list li:before {
+            content: "🥃";
+            position: absolute;
+            left: -20px;
+        }
+        .discount-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #d4af37 0%, #c9a227 100%);
+            color: #1a1a1a;
+            padding: 10px 20px;
+            border-radius: 30px;
+            font-weight: 700;
+            font-size: 14px;
+            margin: 15px 0;
+        }
+        .code-display {
+            background-color: #1a1a1a;
+            border: 2px solid #d4af37;
+            border-radius: 6px;
+            padding: 15px;
+            margin: 15px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 18px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            color: #d4af37;
+            text-align: center;
+        }
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(135deg, #1a1a1a 0%, #3d2817 100%);
+            color: #d4af37;
+            padding: 15px 40px;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: 700;
+            font-size: 16px;
+            margin-top: 20px;
+            transition: all 0.3s ease;
+            border: 2px solid #d4af37;
+            cursor: pointer;
+        }
+        .cta-button:hover {
+            transform: translateY(-2px);
+            background: #d4af37;
+            color: #1a1a1a;
+            box-shadow: 0 6px 20px rgba(212, 175, 55, 0.3);
+        }
+        .urgency {
+            background-color: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 6px;
+            font-size: 13px;
+            color: #856404;
+        }
+        .divider {
+            height: 1px;
+            background: linear-gradient(to right, transparent, #d4af37, transparent);
+            margin: 20px 0;
+        }
+        .footer {
+            background-color: #1a1a1a;
+            color: #888;
+            padding: 20px;
+            text-align: center;
+            font-size: 12px;
+            border-top: 3px solid #d4af37;
+        }
+        .footer a {
+            color: #d4af37;
+            text-decoration: none;
+        }
+        @media (max-width: 600px) {
+            .header h1 {
+                font-size: 24px;
+            }
+            .cta-button {
+                display: block;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1>🥃 Rare Whiskey Alert</h1>
+            <p class="tagline">Reserved for Our Finest</p>
+        </div>
+
+        <!-- Hero Section -->
+        <div class="hero-section">
+            <p class="hero-text">You get it. You're serious about whiskey.</p>
+            <p class="hero-subtext">So when something rare comes in, you get first dibs.</p>
+        </div>
+
+        <!-- Main Content -->
+        <div class="content">
+            <!-- Greeting -->
+            <p class="greeting">Hey [Name],</p>
+            
+            <p class="intro-text">
+                Your order history tells us everything: you know quality, you appreciate craftsmanship, and you don't settle for mediocre.
+            </p>
+
+            <p class="intro-text">
+                That's exactly why <strong>[WHISKEY NAME]</strong> is in your inbox right now—before we announce it to anyone else.
+            </p>
+
+            <!-- Product Feature -->
+            <div class="product-feature">
+                <h3>[WHISKEY NAME]</h3>
+                <div class="tasting-notes">
+                    <strong>Tasting Notes:</strong> [Flavor profile description]
+                </div>
+                <ul class="feature-list">
+                    <li>[Origin/Region]</li>
+                    <li>[Age statement]</li>
+                    <li>[Proof/ABV]</li>
+                    <li>Limited Release—[quantity] bottles available</li>
+                    <li>[Awards/Recognition if applicable]</li>
+                </ul>
+            </div>
+
+            <!-- Price Section -->
+            <p style="font-size: 14px; color: #666; margin: 20px 0;">
+                This is the kind of whiskey that tells a story. Complex, balanced, and unforgettable.
+            </p>
+
+            <div style="text-align: center; padding: 20px; background-color: #f9f9f9; border-radius: 6px;">
+                <p style="font-size: 12px; color: #999; margin-bottom: 10px;">EXCLUSIVE EARLY ACCESS</p>
+                <span class="discount-badge">15% OFF</span>
+                <div class="code-display">WHISKEY15</div>
+            </div>
+
+            <!-- Urgency -->
+            <div class="urgency">
+                🔥 <strong>This won't last long.</strong> Our whiskey people move fast, and limited releases like this disappear quick.
+            </div>
+
+            <div class="divider"></div>
+
+            <!-- CTA -->
+            <div style="text-align: center;">
+                <a href="https://sipsy.com/collections/whiskey" class="cta-button">See This Whiskey</a>
+            </div>
+
+            <p style="font-size: 13px; color: #999; text-align: center; margin-top: 20px;">
+                Not sure if it's right for you? Hit reply—our team can guide you through the tasting notes and history.
+            </p>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <p style="margin-bottom: 10px;">
+                <strong>Sipsy</strong> — Premium Spirits, Curated
+            </p>
+            <p>
+                <a href="https://sipsy.com">Visit Our Store</a> • 
+                <a href="https://sipsy.com/pages/about">About Us</a>
+            </p>
+        </div>
+    </div>
+</body>
+</html>

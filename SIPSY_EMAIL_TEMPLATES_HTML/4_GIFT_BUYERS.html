@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spring Gift Guide - Curated for Every Budget</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background-color: #f5f5f5;
+            line-height: 1.6;
+            color: #333;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #ffffff;
+        }
+        .header {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ff8c9e 100%);
+            padding: 40px 20px;
+            text-align: center;
+            color: #ffffff;
+        }
+        .header h1 {
+            font-size: 32px;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+        .tagline {
+            font-size: 16px;
+            opacity: 0.9;
+        }
+        .hero-section {
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 200"><defs><linearGradient id="grad" x1="0%25" y1="0%25" x2="100%25" y2="100%25"><stop offset="0%25" style="stop-color:%23ff6b6b;stop-opacity:1" /><stop offset="100%25" style="stop-color:%23ff8c9e;stop-opacity:1" /></linearGradient></defs><rect width="600" height="200" fill="url(%23grad)"/><text x="50%25" y="50%25" text-anchor="middle" dy=".3em" fill="white" font-size="48" font-family="Arial">🎁</text></svg>');
+            background-size: cover;
+            padding: 40px 20px;
+            text-align: center;
+            color: #ffffff;
+            background-color: #ff8c9e;
+        }
+        .hero-text {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+        .content {
+            padding: 30px 20px;
+        }
+        .greeting {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: #ff6b6b;
+        }
+        .intro-text {
+            font-size: 14px;
+            line-height: 1.8;
+            margin-bottom: 20px;
+            color: #555;
+        }
+        .occasion-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin: 25px 0;
+        }
+        .occasion-card {
+            background: linear-gradient(135deg, #fff5f7 0%, #ffe8ed 100%);
+            border: 2px solid #ffb3c1;
+            border-radius: 8px;
+            padding: 15px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        .occasion-card:hover {
+            border-color: #ff6b6b;
+            box-shadow: 0 4px 12px rgba(255, 107, 107, 0.15);
+        }
+        .occasion-icon {
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+        .occasion-name {
+            font-size: 13px;
+            font-weight: 600;
+            color: #ff6b6b;
+        }
+        .gift-categories {
+            margin: 30px 0;
+        }
+        .gift-category {
+            background-color: #f9f9f9;
+            border-left: 4px solid #ff6b6b;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 6px;
+        }
+        .gift-category h3 {
+            color: #ff6b6b;
+            margin-bottom: 10px;
+            font-size: 14px;
+            font-weight: 700;
+        }
+        .gift-category p {
+            font-size: 13px;
+            color: #666;
+            margin-bottom: 8px;
+        }
+        .price-range {
+            font-size: 12px;
+            color: #999;
+            font-weight: 600;
+        }
+        .perks {
+            background: linear-gradient(135deg, #fff0f3 0%, #ffe5ec 100%);
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        .perks h3 {
+            color: #ff6b6b;
+            margin-bottom: 15px;
+            font-size: 16px;
+            font-weight: 700;
+        }
+        .perk-item {
+            display: flex;
+            align-items: center;
+            margin: 10px 0;
+            font-size: 13px;
+            color: #666;
+        }
+        .perk-icon {
+            margin-right: 10px;
+            font-size: 18px;
+        }
+        .discount-banner {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ff8c9e 100%);
+            padding: 25px 20px;
+            text-align: center;
+            margin: 25px 0;
+            border-radius: 8px;
+            color: #ffffff;
+        }
+        .discount-banner h2 {
+            font-size: 24px;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+        .code-display {
+            background-color: rgba(255, 255, 255, 0.2);
+            border: 2px dashed #ffffff;
+            border-radius: 6px;
+            padding: 15px;
+            margin: 15px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 18px;
+            font-weight: 700;
+            letter-spacing: 2px;
+        }
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(135deg, #ff6b6b 0%, #ff8c9e 100%);
+            color: #ffffff;
+            padding: 15px 40px;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 16px;
+            margin-top: 20px;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 107, 107, 0.3);
+        }
+        .divider {
+            height: 1px;
+            background: linear-gradient(to right, transparent, #ffb3c1, transparent);
+            margin: 20px 0;
+        }
+        .footer {
+            background-color: #ff6b6b;
+            color: #fff;
+            padding: 20px;
+            text-align: center;
+            font-size: 12px;
+        }
+        .footer a {
+            color: #fff;
+            text-decoration: underline;
+        }
+        @media (max-width: 600px) {
+            .occasion-grid {
+                grid-template-columns: 1fr;
+            }
+            .header h1 {
+                font-size: 24px;
+            }
+            .cta-button {
+                display: block;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1>🎁 Spring Gift Guide</h1>
+            <p class="tagline">Curated for Every Budget & Occasion</p>
+        </div>
+
+        <!-- Hero Section -->
+        <div class="hero-section">
+            <p class="hero-text">Celebrate spring with the perfect gift</p>
+        </div>
+
+        <!-- Main Content -->
+        <div class="content">
+            <!-- Greeting -->
+            <p class="greeting">Hey [Name],</p>
+            
+            <p class="intro-text">
+                Spring is here, and celebrations are coming. Whether it's a birthday, anniversary, or just a "you've been amazing" moment—we've curated the perfect gifts.
+            </p>
+
+            <!-- Occasions -->
+            <p style="font-size: 14px; font-weight: 600; color: #ff6b6b; margin-bottom: 15px;">Perfect For:</p>
+            
+            <div class="occasion-grid">
+                <div class="occasion-card">
+                    <div class="occasion-icon">🎂</div>
+                    <div class="occasion-name">Birthdays</div>
+                </div>
+                <div class="occasion-card">
+                    <div class="occasion-icon">💕</div>
+                    <div class="occasion-name">Anniversaries</div>
+                </div>
+                <div class="occasion-card">
+                    <div class="occasion-icon">🎉</div>
+                    <div class="occasion-name">Celebrations</div>
+                </div>
+                <div class="occasion-card">
+                    <div class="occasion-icon">🌸</div>
+                    <div class="occasion-name">Just Because</div>
+                </div>
+            </div>
+
+            <div class="divider"></div>
+
+            <!-- Gift Categories -->
+            <p style="font-size: 14px; font-weight: 600; color: #ff6b6b; margin-bottom: 15px;">Our Top Picks:</p>
+            
+            <div class="gift-categories">
+                <div class="gift-category">
+                    <h3>✨ Premium Gift Sets</h3>
+                    <p>Beautifully curated 2-3 bottle collections.</p>
+                    <p>Perfect for someone who loves variety.</p>
+                    <div class="price-range">$85 - $150</div>
+                </div>
+                
+                <div class="gift-category">
+                    <h3>🎯 Single Premium Bottles</h3>
+                    <p>Statement pieces they'll remember.</p>
+                    <p>Unique, rare, impressive.</p>
+                    <div class="price-range">$50 - $200+</div>
+                </div>
+                
+                <div class="gift-category">
+                    <h3>🎀 Gift-Ready Packages</h3>
+                    <p>Includes premium wrapping & personalization.</p>
+                    <p>Ready to give, no extra work.</p>
+                    <div class="price-range">$50 - $150</div>
+                </div>
+            </div>
+
+            <!-- Perks -->
+            <div class="perks">
+                <h3>Why Give Sipsy?</h3>
+                <div class="perk-item">
+                    <span class="perk-icon">✓</span>
+                    <span><strong>Curated Quality</strong> — Only the best, never mediocre</span>
+                </div>
+                <div class="perk-item">
+                    <span class="perk-icon">🎀</span>
+                    <span><strong>Free Gift Wrapping</strong> — Looks amazing when it arrives</span>
+                </div>
+                <div class="perk-item">
+                    <span class="perk-icon">📝</span>
+                    <span><strong>Personalized Cards</strong> — Add your message</span>
+                </div>
+                <div class="perk-item">
+                    <span class="perk-icon">🚚</span>
+                    <span><strong>Discreet Shipping</strong> — Arrives safely, no surprises</span>
+                </div>
+            </div>
+
+            <div class="divider"></div>
+
+            <!-- Discount Banner -->
+            <div class="discount-banner">
+                <h2>20% OFF GIFTS</h2>
+                <p>This Week Only</p>
+                <div class="code-display">GIFT20</div>
+                <p style="font-size: 12px; margin-top: 10px;">On all gift orders · Expires 7 days</p>
+            </div>
+
+            <!-- CTA -->
+            <div style="text-align: center;">
+                <a href="https://sipsy.com/collections/gifts" class="cta-button">Browse Gift Guide</a>
+            </div>
+
+            <p style="font-size: 13px; color: #999; text-align: center; margin-top: 20px;">
+                Not sure what they'd love? Hit reply—we can help you pick the perfect gift. 💝
+            </p>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <p style="margin-bottom: 10px;">
+                <strong>Sipsy</strong> — Premium Spirits, Curated
+            </p>
+            <p>
+                <a href="https://sipsy.com">Visit Our Store</a> • 
+                <a href="https://sipsy.com/pages/about">About Us</a>
+            </p>
+        </div>
+    </div>
+</body>
+</html>

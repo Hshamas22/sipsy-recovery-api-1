@@ -1,0 +1,9 @@
+node_modules/
+.env
+.env.local
+TOOLS.md
+MEMORY.md
+*.log
+memory/
+.DS_Store
+*.json

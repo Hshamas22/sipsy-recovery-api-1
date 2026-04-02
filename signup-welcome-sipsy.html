@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to Sipsy - Your $5 Welcome Gift</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #021739 0%, #051e4d 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: #ffffff;
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+            max-width: 500px;
+            width: 100%;
+            padding: 40px;
+            text-align: center;
+            border-top: 4px solid #00FFD2;
+        }
+
+        .header {
+            margin-bottom: 30px;
+        }
+
+        .logo {
+            font-size: 40px;
+            margin-bottom: 15px;
+        }
+
+        h1 {
+            color: #021739;
+            font-size: 32px;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .subtitle {
+            color: #666;
+            font-size: 16px;
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+
+        .code-box {
+            background: linear-gradient(135deg, #021739 0%, #051e4d 100%);
+            color: white;
+            padding: 40px;
+            border-radius: 12px;
+            margin: 30px 0;
+            border: 2px solid #00FFD2;
+        }
+
+        .code-label {
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #00FFD2;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+
+        .discount-code {
+            font-family: 'Courier New', monospace;
+            font-size: 44px;
+            font-weight: bold;
+            letter-spacing: 4px;
+            margin-bottom: 15px;
+            word-break: break-all;
+            color: #00FFD2;
+        }
+
+        .code-expiry {
+            font-size: 13px;
+            opacity: 0.9;
+            color: #ffffff;
+        }
+
+        .cta-button {
+            background: linear-gradient(135deg, #00FFD2 0%, #00d9b3 100%);
+            color: #021739;
+            border: none;
+            padding: 16px 40px;
+            font-size: 16px;
+            font-weight: 700;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            margin-bottom: 15px;
+            width: 100%;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(0, 255, 210, 0.3);
+        }
+
+        .cta-button:active {
+            transform: translateY(0);
+        }
+
+        .copy-button {
+            background: #f8f9fa;
+            color: #021739;
+            border: 2px solid #00FFD2;
+            padding: 12px 20px;
+            font-size: 14px;
+            font-weight: 600;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+        .copy-button:hover {
+            background: #00FFD2;
+            color: #021739;
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 40px;
+        }
+
+        .spinner {
+            border: 4px solid #f0f0f0;
+            border-top: 4px solid #00FFD2;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .error {
+            display: none;
+            background: #fff3cd;
+            color: #856404;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border: 1px solid #ffeaa7;
+        }
+
+        .success {
+            display: none;
+            background: #d4edda;
+            color: #155724;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border: 1px solid #c3e6cb;
+        }
+
+        .terms {
+            font-size: 12px;
+            color: #666;
+            margin-top: 20px;
+            line-height: 1.8;
+        }
+
+        .terms a {
+            color: #00FFD2;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .terms a:hover {
+            text-decoration: underline;
+        }
+
+        .badge {
+            display: inline-block;
+            background: #00FFD2;
+            color: #021739;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 700;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">🎉</div>
+            <h1>Welcome to Sipsy!</h1>
+            <p class="subtitle">Thanks for joining us! Here's your exclusive welcome gift.</p>
+        </div>
+
+        <div id="loading" class="loading">
+            <div class="spinner"></div>
+            <p>Getting your special welcome code...</p>
+        </div>
+
+        <div id="content" style="display: none;">
+            <div id="errorMsg" class="error"></div>
+
+            <div class="code-box">
+                <div class="code-label">YOUR EXCLUSIVE CODE</div>
+                <div class="discount-code" id="discountCode">-</div>
+                <div class="code-expiry">Valid for 7 days</div>
+            </div>
+
+            <button class="copy-button" onclick="copyCode()">📋 Copy Code</button>
+            <div id="copySuccess" class="success" style="display: none; margin-bottom: 15px;">✓ Code copied to clipboard!</div>
+
+            <button class="cta-button" onclick="goToCheckout()">🛍️ Start Shopping</button>
+
+            <div class="terms">
+                <p><strong style="color: #021739;">💡 Use this code at checkout</strong></p>
+                <p style="margin-top: 8px;">Save $5 on your first order!</p>
+                <p style="margin-top: 12px;">Questions? <a href="mailto:support@sipsy.com">Contact support</a></p>
+                <div class="badge">Sipsy VIP Member</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE = 'https://sipsy-recovery-api-production.up.railway.app';
+        let currentCode = null;
+
+        async function init() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const email = urlParams.get('email');
+
+            if (!email) {
+                showError('Email not provided. Please sign up first!');
+                return;
+            }
+
+            try {
+                document.getElementById('loading').style.display = 'block';
+
+                const response = await fetch(
+                    `${API_BASE}/api/assign-code?email=${encodeURIComponent(email)}&type=signup`
+                );
+
+                if (!response.ok) {
+                    throw new Error('Failed to get welcome code');
+                }
+
+                const data = await response.json();
+                currentCode = data.code;
+
+                document.getElementById('discountCode').textContent = data.code;
+                document.getElementById('loading').style.display = 'none';
+                document.getElementById('content').style.display = 'block';
+
+            } catch (error) {
+                showError('Something went wrong. Please try again or contact support.');
+                console.error(error);
+            }
+        }
+
+        function showError(message) {
+            document.getElementById('loading').style.display = 'none';
+            document.getElementById('content').style.display = 'block';
+            const errorMsg = document.getElementById('errorMsg');
+            errorMsg.textContent = message;
+            errorMsg.style.display = 'block';
+        }
+
+        function copyCode() {
+            if (currentCode) {
+                navigator.clipboard.writeText(currentCode).then(() => {
+                    const msg = document.getElementById('copySuccess');
+                    msg.style.display = 'block';
+                    setTimeout(() => {
+                        msg.style.display = 'none';
+                    }, 3000);
+                });
+            }
+        }
+
+        function goToCheckout() {
+            if (currentCode) {
+                window.location.href = `https://sipsy.com?discount=${currentCode}`;
+            }
+        }
+
+        window.addEventListener('load', init);
+    </script>
+</body>
+</html>

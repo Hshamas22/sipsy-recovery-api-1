@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Claim Your $5 Credit - Sipsy</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .container {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            max-width: 500px;
+            width: 100%;
+            padding: 40px;
+            text-align: center;
+        }
+        
+        .logo {
+            font-size: 32px;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 30px;
+        }
+        
+        h1 {
+            font-size: 28px;
+            color: #333;
+            margin-bottom: 10px;
+            line-height: 1.3;
+        }
+        
+        .subheading {
+            font-size: 16px;
+            color: #666;
+            margin-bottom: 30px;
+        }
+        
+        .credit-badge {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            font-size: 48px;
+            font-weight: 700;
+            padding: 30px;
+            border-radius: 12px;
+            margin: 30px 0;
+            display: inline-block;
+        }
+        
+        .code-section {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 20px;
+            margin: 30px 0;
+            border: 2px dashed #e0e0e0;
+        }
+        
+        .code-label {
+            font-size: 12px;
+            color: #999;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+        }
+        
+        .code-display {
+            font-family: 'Courier New', monospace;
+            font-size: 24px;
+            font-weight: 700;
+            color: #667eea;
+            letter-spacing: 2px;
+            word-break: break-all;
+            min-height: 40px;
+        }
+        
+        .copy-button {
+            background: #f0f0f0;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-size: 12px;
+            color: #666;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: all 0.2s;
+        }
+        
+        .copy-button:hover {
+            background: #e0e0e0;
+        }
+        
+        .copy-button.copied {
+            background: #4caf50;
+            color: white;
+        }
+        
+        .expires-warning {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 12px;
+            border-radius: 6px;
+            font-size: 13px;
+            color: #856404;
+            margin: 20px 0;
+            text-align: left;
+        }
+        
+        .cta-button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 16px 40px;
+            font-size: 18px;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            width: 100%;
+            transition: all 0.3s;
+            margin-top: 20px;
+        }
+        
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+        }
+        
+        .cta-button:active {
+            transform: translateY(0);
+        }
+        
+        .cta-button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        .loading {
+            font-size: 14px;
+            color: #667eea;
+            margin-top: 10px;
+        }
+        
+        .error {
+            background: #f8d7da;
+            border-left: 4px solid #dc3545;
+            color: #721c24;
+            padding: 12px;
+            border-radius: 6px;
+            margin: 15px 0;
+            display: none;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logo">SIPSY</div>
+        
+        <h1>You Have a $5 Credit!</h1>
+        <p class="subheading">Apply it to your favorite items right now</p>
+        
+        <div class="credit-badge">$5 OFF</div>
+        
+        <div class="code-section">
+            <div class="code-label">Your Unique Code</div>
+            <div class="code-display" id="codeDisplay">Generating code...</div>
+            <button class="copy-button" id="copyBtn" onclick="copyCode()" disabled>Copy Code</button>
+        </div>
+        
+        <div class="expires-warning">
+            ⏱️ This code expires in <strong>48 hours</strong>. Don't miss out!
+        </div>
+        
+        <div class="error" id="errorMsg"></div>
+        
+        <button class="cta-button" id="checkoutBtn" onclick="proceedToCheckout()" disabled>Apply & Go to Checkout</button>
+        
+        <div class="loading" id="loading"></div>
+    </div>
+
+    <script>
+        // Get email and type from URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const emailParam = urlParams.get('email');
+        const typeParam = urlParams.get('type') || 'email2';
+        
+        let assignedCode = null;
+        const API_BASE = 'https://sipsy-recovery-api-production.up.railway.app';
+        
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            if (!emailParam) {
+                showError('Invalid recovery link. Please check your email.');
+                return;
+            }
+            
+            generateCode();
+        });
+        
+        async function generateCode() {
+            try {
+                document.getElementById('loading').textContent = 'Generating your unique code...';
+                
+                const response = await fetch(`${API_BASE}/api/assign-code?email=${encodeURIComponent(emailParam)}&type=${typeParam}`);
+                const data = await response.json();
+                
+                if (!response.ok) {
+                    throw new Error(data.error || 'Failed to generate code');
+                }
+                
+                assignedCode = data.code;
+                document.getElementById('codeDisplay').textContent = assignedCode;
+                document.getElementById('copyBtn').disabled = false;
+                document.getElementById('checkoutBtn').disabled = false;
+                document.getElementById('loading').textContent = '';
+                
+            } catch (error) {
+                showError('Error: ' + error.message);
+                document.getElementById('loading').textContent = '';
+            }
+        }
+        
+        function copyCode() {
+            if (!assignedCode) return;
+            navigator.clipboard.writeText(assignedCode).then(() => {
+                const btn = document.getElementById('copyBtn');
+                btn.textContent = '✓ Copied!';
+                setTimeout(() => {
+                    btn.textContent = 'Copy Code';
+                }, 2000);
+            });
+        }
+        
+        function proceedToCheckout() {
+            if (!assignedCode) {
+                showError('Code not ready yet. Please wait...');
+                return;
+            }
+            
+            // Redirect to checkout with discount code applied
+            window.location.href = `/checkout?discount=${assignedCode}`;
+        }
+        
+        function showError(msg) {
+            const errorEl = document.getElementById('errorMsg');
+            errorEl.textContent = msg;
+            errorEl.style.display = 'block';
+        }
+    </script>
+</body>
+</html>

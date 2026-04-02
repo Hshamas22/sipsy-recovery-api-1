@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New Tequila - Hala's Latest Discovery</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background-color: #f5f5f5;
+            line-height: 1.6;
+            color: #333;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #ffffff;
+        }
+        .header {
+            background: linear-gradient(135deg, #8B4513 0%, #D2691E 100%);
+            padding: 40px 20px;
+            text-align: center;
+            color: #ffffff;
+        }
+        .header h1 {
+            font-size: 32px;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+        .tagline {
+            font-size: 16px;
+            opacity: 0.9;
+        }
+        .hero-section {
+            background: linear-gradient(135deg, #8B4513 0%, #D2691E 100%);
+            padding: 40px 20px;
+            text-align: center;
+            color: #ffffff;
+        }
+        .hero-text {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+        .hero-subtext {
+            font-size: 14px;
+            opacity: 0.95;
+        }
+        .content {
+            padding: 30px 20px;
+        }
+        .greeting {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: #8B4513;
+        }
+        .intro-text {
+            font-size: 14px;
+            line-height: 1.8;
+            margin-bottom: 20px;
+            color: #555;
+        }
+        .product-feature {
+            background: linear-gradient(135deg, #FFF8DC 0%, #FFEAA7 100%);
+            border-left: 4px solid #D2691E;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 6px;
+        }
+        .product-feature h3 {
+            color: #8B4513;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+        .feature-list {
+            font-size: 13px;
+            color: #666;
+            margin: 10px 0;
+        }
+        .feature-list li {
+            margin: 5px 0 5px 20px;
+            list-style: none;
+            position: relative;
+        }
+        .feature-list li:before {
+            content: "✓";
+            position: absolute;
+            left: -15px;
+            color: #D2691E;
+            font-weight: bold;
+        }
+        .discount-badge {
+            display: inline-block;
+            background-color: #D2691E;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 30px;
+            font-weight: 600;
+            font-size: 14px;
+            margin: 15px 0;
+        }
+        .code-display {
+            background-color: #FFF8DC;
+            border: 2px dashed #D2691E;
+            border-radius: 6px;
+            padding: 15px;
+            margin: 15px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 18px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            color: #8B4513;
+            text-align: center;
+        }
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(135deg, #8B4513 0%, #D2691E 100%);
+            color: #ffffff;
+            padding: 15px 40px;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 16px;
+            margin-top: 20px;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(139, 69, 19, 0.3);
+        }
+        .social-proof {
+            background-color: #f9f9f9;
+            border-left: 4px solid #00d9ff;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 6px;
+            font-size: 13px;
+            color: #666;
+            font-style: italic;
+        }
+        .divider {
+            height: 1px;
+            background-color: #e0e0e0;
+            margin: 20px 0;
+        }
+        .footer {
+            background-color: #8B4513;
+            color: #ccc;
+            padding: 20px;
+            text-align: center;
+            font-size: 12px;
+        }
+        .footer a {
+            color: #FFEAA7;
+            text-decoration: none;
+        }
+        @media (max-width: 600px) {
+            .header h1 {
+                font-size: 24px;
+            }
+            .cta-button {
+                display: block;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1>🌵 New Tequila Alert</h1>
+            <p class="tagline">Your Favorite Taste, Just Dropped</p>
+        </div>
+
+        <!-- Hero Section -->
+        <div class="hero-section">
+            <p class="hero-text">We know you're serious about tequila.</p>
+            <p class="hero-subtext">That's why when we found this one, you were the first person we thought of.</p>
+        </div>
+
+        <!-- Main Content -->
+        <div class="content">
+            <!-- Greeting -->
+            <p class="greeting">Hey [Name],</p>
+            
+            <p class="intro-text">
+                You've got excellent taste. We've seen your orders—and we know what you love.
+            </p>
+
+            <p class="intro-text">
+                That's exactly why <strong>[TEQUILA NAME]</strong> just arrived, and we thought of you first.
+            </p>
+
+            <!-- Product Feature -->
+            <div class="product-feature">
+                <h3>[TEQUILA NAME]</h3>
+                <ul class="feature-list">
+                    <li>Aged [X] years in oak</li>
+                    <li>Notes of [flavor profile]</li>
+                    <li>100% Blue Agave</li>
+                    <li>Limited batch—only [quantity] bottles</li>
+                    <li>[Any awards or recognition]</li>
+                </ul>
+            </div>
+
+            <!-- Price Section -->
+            <p style="font-size: 14px; color: #666; margin: 20px 0;">
+                This is the kind of tequila that makes a difference. Not just another bottle—the real deal.
+            </p>
+
+            <div style="text-align: center; padding: 20px; background-color: #f9f9f9; border-radius: 6px;">
+                <p style="font-size: 12px; color: #999; margin-bottom: 10px;">EXCLUSIVE FOR YOU</p>
+                <span class="discount-badge">15% OFF</span>
+                <div class="code-display">TEQUILA15</div>
+            </div>
+
+            <!-- Social Proof -->
+            <div class="social-proof">
+                "This is hands down the best tequila we've tried. Smooth, complex, and worth every penny." — Sipsy Customer
+            </div>
+
+            <div class="divider"></div>
+
+            <!-- CTA -->
+            <p style="font-size: 14px; color: #666; text-align: center; margin: 20px 0;">
+                Stock is limited. Our tequila people move fast.
+            </p>
+
+            <div style="text-align: center;">
+                <a href="https://sipsy.com/collections/tequila" class="cta-button">View This Tequila</a>
+            </div>
+
+            <p style="font-size: 13px; color: #999; text-align: center; margin-top: 20px;">
+                Want a pairing recommendation? Hit reply—our team loves talking tequila.
+            </p>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <p style="margin-bottom: 10px;">
+                <strong>Sipsy</strong> — Premium Spirits, Curated
+            </p>
+            <p>
+                <a href="https://sipsy.com">Visit Our Store</a> • 
+                <a href="https://sipsy.com/pages/about">About Us</a>
+            </p>
+        </div>
+    </div>
+</body>
+</html>
